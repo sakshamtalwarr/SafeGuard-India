@@ -248,7 +248,16 @@ const SafeGuardIndia = () => {
             
             {/* VISITOR COUNTER BADGE */}
             <div className="mt-4 flex justify-center opacity-50 hover:opacity-100 transition-opacity">
-                <img src="https://profile-counter.glitch.me/safeguard-india/count.svg" alt="Visitor Count" className="h-6" />
+               {/* Reliable Visitor Counter Badge */}
+{/* Robust Visitor Counter */}
+            <div className="mt-6 flex flex-col items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
+                <span className="text-[10px] text-slate-500 uppercase tracking-widest">Live Visits</span>
+                <img 
+                  src="https://komarev.com/ghpvc/?username=safeguard-india-live&label=VIEWS&color=0e75b6&style=for-the-badge" 
+                  alt="SafeGuard Views" 
+                  className="h-6 rounded shadow-lg shadow-blue-900/20"
+                />
+            </div>
             </div>
 
         </div>
