@@ -1,19 +1,16 @@
+import React, { useState, useRef } from 'react';
 import { 
   Phone, ShieldAlert, MessageCircle, Navigation, Volume2, VolumeX, 
   Save, CheckCircle, MapPin, ExternalLink, Copy, AlertTriangle,
   Ambulance, HeartHandshake, Flame,
-  UserPlus, User, Edit2, Trash2 // <--- ADD THESE NEW ONES
+  UserPlus, User, Edit2, Trash2
 } from 'lucide-react';
-import React, { useState, useRef } from 'react';
 
-// --- SOS Component ---
-
-
-// --- SOS Component (Upgraded) ---
+// --- SOS Component (Upgraded with Fixed Link) ---
 export const SOSWhatsApp = () => {
   const [contact, setContact] = useState(() => localStorage.getItem('emergency_contact') || '');
   const [name, setName] = useState(() => localStorage.getItem('emergency_name') || '');
-  const [isEditing, setIsEditing] = useState(!contact); // Edit mode if no contact saved
+  const [isEditing, setIsEditing] = useState(!contact); 
   const [saved, setSaved] = useState(false);
 
   const saveDetails = () => {
@@ -35,11 +32,17 @@ export const SOSWhatsApp = () => {
 
   const sendSOS = () => {
     if (!contact) return alert('Please save a contact first.');
+    
     const trigger = (lat, long) => {
-        const link = lat ? `http://googleusercontent.com/maps.google.com/?q=${lat},${long}` : 'Unknown Location';
-        const msg = encodeURIComponent(`SOS! I need help! My location: ${link}`);
+        // FIXED: Official Google Maps Universal Link
+        const mapUrl = lat 
+          ? `https://www.google.com/maps?q=${lat},${long}` 
+          : 'Unknown Location';
+          
+        const msg = encodeURIComponent(`SOS! I need help! My location: ${mapUrl}`);
         window.open(`https://wa.me/${contact}?text=${msg}`, '_blank');
     }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (p) => trigger(p.coords.latitude, p.coords.longitude),
@@ -50,8 +53,6 @@ export const SOSWhatsApp = () => {
 
   return (
     <div className="glass-card rounded-3xl p-8 h-full flex flex-col justify-center min-h-[320px] relative overflow-hidden">
-      
-      {/* Header */}
       <div className="flex items-center gap-4 mb-6 relative z-10">
         <div className="bg-green-500/20 p-3 rounded-full text-green-400 shadow-sm">
           <MessageCircle size={28} />
@@ -63,7 +64,6 @@ export const SOSWhatsApp = () => {
       </div>
 
       {isEditing ? (
-        // EDIT MODE: Inputs
         <div className="flex flex-col gap-3 mb-6 relative z-10 animate-fadeIn">
           <div className="relative">
             <User size={18} className="absolute left-4 top-4 text-slate-500" />
@@ -86,7 +86,6 @@ export const SOSWhatsApp = () => {
           </button>
         </div>
       ) : (
-        // SAVED MODE: Display Name
         <div className="bg-slate-800/50 rounded-2xl p-4 mb-6 border border-slate-700 relative z-10 animate-fadeIn flex justify-between items-center group">
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-lg">
@@ -104,7 +103,6 @@ export const SOSWhatsApp = () => {
         </div>
       )}
 
-      {/* SOS Button */}
       <button 
         onClick={sendSOS} 
         disabled={isEditing}
@@ -114,7 +112,6 @@ export const SOSWhatsApp = () => {
         {isEditing ? 'Save Contact First' : `Alert ${name || 'Contact'}`}
       </button>
 
-      {/* Decorative Background */}
       <div className="absolute -right-6 -bottom-6 opacity-5 z-0 rotate-12 pointer-events-none">
         <MessageCircle size={140} />
       </div>
@@ -122,7 +119,7 @@ export const SOSWhatsApp = () => {
   );
 };
 
-// --- Siren Component ---
+// --- Siren Component (Unchanged) ---
 export const SirenTool = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioContextRef = useRef(null);
@@ -163,7 +160,7 @@ export const SirenTool = () => {
   );
 };
 
-// --- Location Component ---
+// --- Location Component (Upgraded with Fixed Link) ---
 export const LocationTool = () => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -173,7 +170,8 @@ export const LocationTool = () => {
     setLoading(true); setLocation(null);
     navigator.geolocation.getCurrentPosition(
       (p) => {
-        const mapsLink = `http://googleusercontent.com/maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}`;
+        // FIXED: Official Google Maps Universal Link
+        const mapsLink = `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
         setLocation({ mapsLink }); setLoading(false);
       },
       () => { alert('GPS Error'); setLoading(false); }
@@ -193,7 +191,7 @@ export const LocationTool = () => {
       ) : (
         <div className="animate-fadeIn">
           <div className="flex flex-col gap-4">
-            <a href={location.mapsLink} target="_blank" className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-500 active:scale-95 transition-all text-lg">
+            <a href={location.mapsLink} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-500 active:scale-95 transition-all text-lg">
               <ExternalLink size={20} /> Open Maps
             </a>
             <button onClick={() => { navigator.clipboard.writeText(location.mapsLink); setCopied(true); }} className="w-full flex items-center justify-center gap-2 bg-slate-800 border border-slate-600 text-slate-300 px-6 py-4 rounded-2xl font-bold hover:bg-slate-700 transition-all active:scale-95">
@@ -206,9 +204,11 @@ export const LocationTool = () => {
   );
 };
 
-// --- Nearby Component ---
+// --- Nearby Component (Upgraded with Fixed Link) ---
 export const NearbyServices = () => {
-    const openMap = (q) => window.open(`http://googleusercontent.com/maps.google.com/search?q=${q}+near+me`, '_blank');
+    // FIXED: Official Google Maps Search Link
+    const openMap = (q) => window.open(`https://www.google.com/maps/search/${q}+near+me`, '_blank');
+    
     return (
         <div className="glass-card rounded-3xl p-8 mb-0">
             <div className="flex items-center gap-4 mb-6">
