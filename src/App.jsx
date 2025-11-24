@@ -218,6 +218,8 @@ const SafeGuardIndia = () => {
       
       <TipsModal isOpen={showTips} onClose={() => setShowTips(false)} />
 
+      {/* Footer */}
+    {/* Footer */}
       <footer className="mt-20 py-8 border-t border-white/10 bg-slate-900/50 backdrop-blur-md">
         <div className="text-center">
             <p className="text-slate-400 font-medium text-sm flex flex-col sm:flex-row justify-center items-center gap-2">
@@ -243,6 +245,12 @@ const SafeGuardIndia = () => {
             </div>
 
             <p className="text-xs text-slate-600 mt-6">© {new Date().getFullYear()} SafeGuard India. All rights reserved.</p>
+            
+            {/* VISITOR COUNTER BADGE */}
+            <div className="mt-4 flex justify-center opacity-50 hover:opacity-100 transition-opacity">
+                <img src="https://profile-counter.glitch.me/safeguard-india/count.svg" alt="Visitor Count" className="h-6" />
+            </div>
+
         </div>
       </footer>
     </div>
