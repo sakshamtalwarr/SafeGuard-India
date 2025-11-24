@@ -2,11 +2,11 @@ import React, { useState, useRef } from 'react';
 import { 
   Phone, ShieldAlert, MessageCircle, Navigation, Volume2, VolumeX, 
   Save, CheckCircle, MapPin, ExternalLink, Copy, AlertTriangle,
-  Ambulance, HeartHandshake, Flame,
+  Ambulance, HeartHandshake, Flame, Building2, Droplet,
   UserPlus, User, Edit2, Trash2
 } from 'lucide-react';
 
-// --- SOS Component (Upgraded with Fixed Link) ---
+// --- SOS Component (Unchanged) ---
 export const SOSWhatsApp = () => {
   const [contact, setContact] = useState(() => localStorage.getItem('emergency_contact') || '');
   const [name, setName] = useState(() => localStorage.getItem('emergency_name') || '');
@@ -34,7 +34,6 @@ export const SOSWhatsApp = () => {
     if (!contact) return alert('Please save a contact first.');
     
     const trigger = (lat, long) => {
-        // FIXED: Official Google Maps Universal Link
         const mapUrl = lat 
           ? `https://www.google.com/maps?q=${lat},${long}` 
           : 'Unknown Location';
@@ -160,7 +159,7 @@ export const SirenTool = () => {
   );
 };
 
-// --- Location Component (Upgraded with Fixed Link) ---
+// --- Location Component (Unchanged) ---
 export const LocationTool = () => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -170,7 +169,6 @@ export const LocationTool = () => {
     setLoading(true); setLocation(null);
     navigator.geolocation.getCurrentPosition(
       (p) => {
-        // FIXED: Official Google Maps Universal Link
         const mapsLink = `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
         setLocation({ mapsLink }); setLoading(false);
       },
@@ -204,9 +202,8 @@ export const LocationTool = () => {
   );
 };
 
-// --- Nearby Component (Upgraded with Fixed Link) ---
+// --- Nearby Component (UPDATED with Blood Bank & Govt Hospital) ---
 export const NearbyServices = () => {
-    // FIXED: Official Google Maps Search Link
     const openMap = (q) => window.open(`https://www.google.com/maps/search/${q}+near+me`, '_blank');
     
     return (
@@ -216,10 +213,18 @@ export const NearbyServices = () => {
                 <h2 className="text-2xl font-bold text-white">Find Nearby</h2>
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <button onClick={() => openMap('Hospital')} className="flex flex-col items-center justify-center gap-3 p-5 bg-red-900/30 text-red-300 border border-red-500/30 rounded-2xl hover:bg-red-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg"><Ambulance size={28}/> Hospitals</button>
-                <button onClick={() => openMap('Police Station')} className="flex flex-col items-center justify-center gap-3 p-5 bg-blue-900/30 text-blue-300 border border-blue-500/30 rounded-2xl hover:bg-blue-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg"><ShieldAlert size={28}/> Police</button>
-                <button onClick={() => openMap('Pharmacy')} className="flex flex-col items-center justify-center gap-3 p-5 bg-green-900/30 text-green-300 border border-green-500/30 rounded-2xl hover:bg-green-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg"><HeartHandshake size={28}/> Pharmacy</button>
-                <button onClick={() => openMap('Fire Station')} className="flex flex-col items-center justify-center gap-3 p-5 bg-orange-900/30 text-orange-300 border border-orange-500/30 rounded-2xl hover:bg-orange-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg"><Flame size={28}/> Fire Stn</button>
+                <button onClick={() => openMap('Government Hospital')} className="flex flex-col items-center justify-center gap-3 p-5 bg-red-900/30 text-red-300 border border-red-500/30 rounded-2xl hover:bg-red-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg text-center text-sm">
+                    <Building2 size={24}/> Govt. Hospital
+                </button>
+                <button onClick={() => openMap('Blood Bank')} className="flex flex-col items-center justify-center gap-3 p-5 bg-red-900/30 text-red-300 border border-red-500/30 rounded-2xl hover:bg-red-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg text-center text-sm">
+                    <Droplet size={24}/> Blood Bank
+                </button>
+                <button onClick={() => openMap('Police Station')} className="flex flex-col items-center justify-center gap-3 p-5 bg-blue-900/30 text-blue-300 border border-blue-500/30 rounded-2xl hover:bg-blue-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg text-center text-sm">
+                    <ShieldAlert size={24}/> Police
+                </button>
+                <button onClick={() => openMap('Pharmacy')} className="flex flex-col items-center justify-center gap-3 p-5 bg-green-900/30 text-green-300 border border-green-500/30 rounded-2xl hover:bg-green-900/50 transition-colors font-bold active:scale-95 hover:shadow-lg text-center text-sm">
+                    <HeartHandshake size={24}/> Pharmacy
+                </button>
             </div>
         </div>
     )

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { 
   ShieldAlert, Ambulance, Flame, HeartHandshake, Baby, Globe, Train, 
-  PawPrint, Trees, Phone, BookOpen, X, HeartPulse, AlertTriangle, UserCheck, ExternalLink 
+  PawPrint, Trees, Phone, BookOpen, X, HeartPulse, AlertTriangle, UserCheck, ExternalLink, 
+  Smile, Car, Briefcase, Info, UserPlus // <--- ADDED UserPlus HERE!
 } from 'lucide-react';
 
-// Import our modules
 import Header from './components/Header';
 import EmergencyCard from './components/EmergencyCard';
 import { SOSWhatsApp, SirenTool, LocationTool, NearbyServices } from './components/Tools';
 
-// --- Tips Modal (Upgraded with Tabs & Rich Content) ---
+// --- Tips Modal ---
 const TipsModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('medical');
 
@@ -98,7 +98,6 @@ const TipsModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 bg-slate-900/80 z-[60] flex items-center justify-center p-4 backdrop-blur-sm animate-fadeIn">
       <div className="bg-white rounded-3xl max-w-lg w-full max-h-[85vh] overflow-hidden shadow-2xl border border-slate-600 flex flex-col">
-        {/* Header */}
         <div className="p-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
           <h2 className="text-xl font-bold flex items-center gap-2 text-slate-800">
             <BookOpen className="text-blue-600" /> Safety Protocols
@@ -108,19 +107,16 @@ const TipsModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Tabs */}
         <div className="flex border-b border-slate-100">
             <button onClick={() => setActiveTab('medical')} className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'medical' ? 'text-red-600 border-b-2 border-red-600 bg-red-50' : 'text-slate-500 hover:bg-slate-50'}`}>Medical</button>
             <button onClick={() => setActiveTab('fire')} className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'fire' ? 'text-orange-600 border-b-2 border-orange-600 bg-orange-50' : 'text-slate-500 hover:bg-slate-50'}`}>Fire</button>
             <button onClick={() => setActiveTab('disaster')} className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'disaster' ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50' : 'text-slate-500 hover:bg-slate-50'}`}>Disaster</button>
         </div>
 
-        {/* Content (Scrollable) */}
         <div className="p-6 overflow-y-auto bg-white">
             {renderContent()}
         </div>
 
-        {/* Footer */}
         <div className="p-4 border-t border-slate-100 bg-slate-50 text-right">
           <button onClick={onClose} className="bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium hover:bg-slate-900 w-full md:w-auto transition-colors">
             I Understand
@@ -140,23 +136,28 @@ const SafeGuardIndia = () => {
   const emergencyData = [
     { id: 1, title: "Pan-India Emergency", number: "112", icon: ShieldAlert, category: "General", description: "All-in-one number for Police, Fire, Ambulance.", colorClass: "bg-red-600" },
     { id: 2, title: "Police Helpline", number: "100", icon: ShieldAlert, category: "Police", description: "Standard police emergency line.", colorClass: "bg-blue-700" },
-    { id: 3, title: "Ambulance", number: "108", icon: Ambulance, category: "Medical", description: "Emergency medical services.", colorClass: "bg-emerald-600" },
+    { id: 3, title: "Ambulance (Medical)", number: "108", icon: Ambulance, category: "Medical", description: "General medical emergency ambulance.", colorClass: "bg-emerald-600" },
+    { id: 18, title: "Pregnancy Ambulance", number: "102", icon: Ambulance, category: "Medical", description: "Free ambulance for pregnant women & infants (Janani Express).", colorClass: "bg-pink-500" },
     { id: 4, title: "Fire Brigade", number: "101", icon: Flame, category: "Fire", description: "For fire outbreaks or gas leaks.", colorClass: "bg-orange-600" },
     { id: 5, title: "Women's Helpline", number: "1091", icon: HeartHandshake, category: "Women", description: "24/7 helpline for women in distress.", colorClass: "bg-pink-600" },
     { id: 6, title: "Domestic Violence", number: "181", icon: HeartHandshake, category: "Women", description: "Counseling and aid for abuse.", colorClass: "bg-purple-600" },
     { id: 9, title: "Child Helpline", number: "1098", icon: Baby, category: "Children", description: "Reporting child labor or abuse.", colorClass: "bg-amber-500" },
+    { id: 19, title: "Elder Line", number: "14567", icon: UserPlus, category: "Seniors", description: "Govt helpline for senior citizens (Rescue & Abuse).", colorClass: "bg-teal-600" },
+    { id: 20, title: "Mental Health", number: "14416", icon: Smile, category: "Mental Health", description: "Tele MANAS: Free 24/7 mental health counseling.", colorClass: "bg-indigo-500" },
+    { id: 21, title: "Highway Helpline", number: "1033", icon: Car, category: "Travel", description: "NHAI helpline for accidents on National Highways.", colorClass: "bg-orange-500" },
     { id: 10, title: "Cyber Crime", number: "1930", icon: Globe, category: "Cyber", description: "Online fraud and harassment.", colorClass: "bg-indigo-600" },
     { id: 12, title: "Railway Security", number: "139", icon: Train, category: "Travel", description: "Help on trains.", colorClass: "bg-blue-800" },
     { id: 14, title: "Animal Ambulance", number: "1962", icon: PawPrint, category: "Animals", description: "Govt Veterinary Unit.", colorClass: "bg-yellow-600" },
-    { id: 16, title: "Wildlife SOS", number: "9871963535", icon: Trees, category: "Animals", description: "Wild animal rescue.", colorClass: "bg-green-700" }
+    { id: 16, title: "Wildlife SOS", number: "9871963535", icon: Trees, category: "Animals", description: "Wild animal rescue.", colorClass: "bg-green-700" },
+    { id: 22, title: "Consumer Helpline", number: "1915", icon: Briefcase, category: "General", description: "For consumer grievances and fraud.", colorClass: "bg-slate-600" }
   ];
 
-  const categories = ['All', 'General', 'Women', 'Children', 'Cyber', 'Medical', 'Travel', 'Animals'];
+  const categories = ['All', 'General', 'Medical', 'Women', 'Seniors', 'Children', 'Mental Health', 'Travel', 'Animals', 'Cyber'];
 
   const filteredData = emergencyData.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           item.number.includes(searchTerm) ||
-                          item.category.toLowerCase().includes(searchTerm.toLowerCase());
+                          item.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filter === 'All' || item.category === filter || (filter === 'General' && (item.category === 'Police' || item.category === 'Fire'));
     return matchesSearch && matchesFilter;
   });
@@ -173,22 +174,15 @@ const SafeGuardIndia = () => {
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         
-        {/* --- Top Section (Tools & Panic) --- */}
         <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8 mb-16">
-          
-          {/* Column 1: Tools */}
           <div className="flex flex-col gap-8 order-2 lg:order-1">
              <LocationTool />
              <NearbyServices />
           </div>
           
-          {/* Column 2 & 3: SOS & Panic */}
           <div className="flex flex-col gap-8 lg:col-span-2 order-1 lg:order-2">
             <div className="flex flex-col md:grid md:grid-cols-2 gap-8 h-full">
-              
               <SOSWhatsApp />
-              
-               {/* Panic Card */}
                <div className="glass-card rounded-3xl p-8 bg-gradient-to-br from-blue-600 to-indigo-900 text-white flex flex-col justify-between relative overflow-hidden border-none shadow-2xl min-h-[320px]">
                   <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
@@ -205,12 +199,10 @@ const SafeGuardIndia = () => {
                     <ShieldAlert size={240} />
                   </div>
                </div>
-
             </div>
           </div>
         </div>
 
-        {/* --- Directory Grid --- */}
         <div className="mb-8 pl-4 border-l-8 border-white">
            <h2 className="text-3xl font-black text-white tracking-tight">Helpline Directory</h2>
            <p className="text-slate-400 font-medium mt-1">Direct access to national emergency services</p>
@@ -226,7 +218,6 @@ const SafeGuardIndia = () => {
       
       <TipsModal isOpen={showTips} onClose={() => setShowTips(false)} />
 
-      {/* Footer */}
       <footer className="mt-20 py-8 border-t border-white/10 bg-slate-900/50 backdrop-blur-md">
         <div className="text-center">
             <p className="text-slate-400 font-medium text-sm flex flex-col sm:flex-row justify-center items-center gap-2">
@@ -240,7 +231,18 @@ const SafeGuardIndia = () => {
                 </a>
               </span>
             </p>
-            <p className="text-xs text-slate-600 mt-3">© {new Date().getFullYear()} SafeGuard India. All rights reserved.</p>
+            
+            <div className="mt-4">
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Verified Data Sources</p>
+                <div className="flex justify-center gap-4 text-xs text-slate-400 flex-wrap px-4">
+                    <a href="https://mohfw.gov.in/" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">MoHFW</a>
+                    <a href="https://socialjustice.gov.in/" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">Social Justice Ministry</a>
+                    <a href="https://morth.nic.in/" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">MoRTH (Highways)</a>
+                    <a href="https://cybercrime.gov.in/" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">CyberCrime.gov</a>
+                </div>
+            </div>
+
+            <p className="text-xs text-slate-600 mt-6">© {new Date().getFullYear()} SafeGuard India. All rights reserved.</p>
         </div>
       </footer>
     </div>
